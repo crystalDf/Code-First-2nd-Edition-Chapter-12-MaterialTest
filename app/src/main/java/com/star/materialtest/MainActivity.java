@@ -8,10 +8,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +25,22 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private FloatingActionButton mFloatingActionButton;
+    private RecyclerView mRecyclerView;
+
+    private Fruit[] mFruits = {
+            new Fruit("Apple", R.drawable.apple),
+            new Fruit("Banana", R.drawable.banana),
+            new Fruit("Orange", R.drawable.orange),
+            new Fruit("Watermelon", R.drawable.watermelon),
+            new Fruit("Pear", R.drawable.pear),
+            new Fruit("Grape", R.drawable.grape),
+            new Fruit("Pineapple", R.drawable.pineapple),
+            new Fruit("Strawberry", R.drawable.strawberry),
+            new Fruit("Cherry", R.drawable.cherry),
+            new Fruit("Mango", R.drawable.mango)
+    };
+
+    private List<Fruit> mFruitList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +72,28 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.LENGTH_LONG).show())
                         .show()
         );
+        
+        initFruits();
+
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(
+                new GridLayoutManager(this, 2));
+        mRecyclerView.setAdapter(new FruitAdapter(mFruitList));
+    }
+
+    private void initFruits() {
+
+        if (mFruitList == null) {
+            mFruitList = new ArrayList<>();
+        }
+
+        mFruitList.clear();
+
+        for (int i = 0; i < 50; i++) {
+            Random random = new Random();
+            int index = random.nextInt(mFruits.length);
+            mFruitList.add(mFruits[index]);
+        }
     }
 
     @Override
