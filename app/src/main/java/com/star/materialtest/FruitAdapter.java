@@ -1,6 +1,7 @@
 package com.star.materialtest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -50,7 +51,20 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
         View view = LayoutInflater.from(mContext).inflate(
                 R.layout.fruit_item, parent, false);
 
-        return new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        viewHolder.mCardView.setOnClickListener(v -> {
+            int position = viewHolder.getAdapterPosition();
+            Fruit fruit = mFruitList.get(position);
+
+            Intent intent = new Intent(mContext, FruitActivity.class);
+            intent.putExtra(FruitActivity.FRUIT_NAME, fruit.getName());
+            intent.putExtra(FruitActivity.FRUIT_IMAGE_ID, fruit.getImageId());
+
+            mContext.startActivity(intent);
+        });
+
+        return viewHolder;
     }
 
     @Override
